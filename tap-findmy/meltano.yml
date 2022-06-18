@@ -1,0 +1,18 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: tap-findmy
+plugins:
+  extractors:
+  - name: tap-findmy
+    namespace: tap_findmy
+    pip_url: -e .
+    capabilities:
+    - state
+    - catalog
+    - discover
+    settings:
+    - name: item_name
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl

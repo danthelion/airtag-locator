@@ -1,0 +1,64 @@
+version: 1
+default_environment: dev
+project_id: 3fcc73d5-e00a-40ec-b8d1-0359bf5103d9
+plugins:
+  extractors:
+  - name: tap-findmy
+    namespace: tap_findmy
+    pip_url: -e /Users/daniel.palma/Personal/findmyairtag/tap-findmy
+    capabilities:
+    - state
+    - catalog
+    - discover
+    settings:
+    - name: item_name
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
+  - name: target-postgres
+    variant: transferwise
+    pip_url: pipelinewise-target-postgres
+    settings:
+    - name: user
+    - name: password
+    - name: dbname
+  transformers:
+  - name: dbt-postgres
+    variant: dbt-labs
+    pip_url: dbt-core~=1.0.0 dbt-postgres~=1.0.0
+    commands:
+      item: run --select +stg_item
+  utilities:
+  - name: sqlfluff
+    variant: sqlfluff
+    pip_url: sqlfluff[dbt]
+  - name: superset
+    variant: apache
+    pip_url: apache-superset==1.5.0 markupsafe==2.0.1 psycopg2==2.9.3
+    config:
+      MAPBOX_API_KEY: $MAPBOX_API_KEY
+schedules:
+- name: daily-findmy-load
+  interval: '@daily'
+  job: load-item-location-from-cache
+environments:
+- name: dev
+  config:
+    plugins:
+      transformers:
+      - name: dbt-postgres
+        config:
+          host: localhost
+          user: meltano
+          port: 5432
+          dbname: warehouse
+          schema: public
+      extractors:
+      - name: tap-findmy
+- name: staging
+- name: prod
+jobs:
+- name: load-item-location-from-cache
+  tasks:
+  - tap-findmy target-postgres dbt-postgres:item

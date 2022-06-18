@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "tap-findmy"
+version = "0.0.1"
+description = "`tap-findmy` is a Singer tap for findmy, built with the Meltano SDK for Singer Taps."
+authors = ["Daniel Palma"]
+keywords = [
+    "ELT",
+    "findmy",
+]
+license = "Apache 2.0"
+
+[tool.poetry.dependencies]
+python = "<3.11,>=3.7.1"
+requests = "^2.25.1"
+singer-sdk = "^0.5.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+tox = "^3.24.4"
+flake8 = "^3.9.2"
+black = "^21.9b0"
+pydocstyle = "^6.1.1"
+mypy = "^0.910"
+types-requests = "^2.26.1"
+isort = "^5.10.1"
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3 # Vertical Hanging Indent
+src_paths = "tap_findmy"
+
+[build-system]
+requires = ["poetry-core>=1.0.8"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+# CLI declaration
+tap-findmy = 'tap_findmy.tap:Tapfindmy.cli'

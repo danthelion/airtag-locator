@@ -1,0 +1,10 @@
+{
+  "plugin_type": "files",
+  "name": "files-great-expectations",
+  "namespace": "files_great_expectations",
+  "variant": "meltano",
+  "label": "Great Expectations",
+  "docs": "https://hub.meltano.com/files/files-great-expectations--meltano",
+  "repo": "https://github.com/meltano/files-great-expectations",
+  "pip_url": "git+https://github.com/meltano/files-great-expectations"
+}

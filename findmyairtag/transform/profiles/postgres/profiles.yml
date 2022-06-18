@@ -1,0 +1,49 @@
+# Postgres config reference:
+config:
+  send_anonymous_usage_stats: False
+  use_colors: True
+meltano:
+  target: "{{ env_var('MELTANO_ENVIRONMENT', 'dev') }}"
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DBT_POSTGRES_HOST') }}"
+      user: "{{ env_var('DBT_POSTGRES_USER') }}"
+      password: "{{ env_var('DBT_POSTGRES_PASSWORD') }}"
+      port: "{{ env_var('DBT_POSTGRES_PORT') | int }}"
+      dbname: "{{ env_var('DBT_POSTGRES_DBNAME', '') }}"
+      schema: findmyairtag
+      threads: 2
+      keepalives_idle: 0 # default 0, indicating the system default
+      connect_timeout: 10 # default 10 seconds
+      search_path: "{{ env_var('DBT_POSTGRES_SEARCH_PATH', '') }}" # optional, override the default postgres search_path
+      role: "{{ env_var('DBT_POSTGRES_ROLE', '') }}" # optional, set the role dbt assumes when executing queries
+      # sslmode: "{{ env_var('DBT_POSTGRES_SSLMODE', '').split() }}" # optional, set the sslmode used to connect to the database
+    staging:
+      type: postgres
+      host: "{{ env_var('DBT_POSTGRES_HOST') }}"
+      user: "{{ env_var('DBT_POSTGRES_USER') }}"
+      password: "{{ env_var('DBT_POSTGRES_PASSWORD') }}"
+      port: "{{ env_var('DBT_POSTGRES_PORT') | int }}"
+      dbname: "{{ env_var('DBT_POSTGRES_DBNAME', '') }}"
+      schema: "{{ env_var('DBT_POSTGRES_SCHEMA') }}"
+      threads: 4
+      keepalives_idle: 0 # default 0, indicating the system default
+      connect_timeout: 10 # default 10 seconds
+      search_path: "{{ env_var('DBT_POSTGRES_SEARCH_PATH', '') }}" # optional, override the default postgres search_path
+      role: "{{ env_var('DBT_POSTGRES_ROLE', '') }}" # optional, set the role dbt assumes when executing queries
+      # sslmode: "{{ env_var('DBT_POSTGRES_SSLMODE', '').split() }}" # optional, set the sslmode used to connect to the database
+    prod:
+      type: postgres
+      host: "{{ env_var('DBT_POSTGRES_HOST') }}"
+      user: "{{ env_var('DBT_POSTGRES_USER') }}"
+      password: "{{ env_var('DBT_POSTGRES_PASSWORD') }}"
+      port: "{{ env_var('DBT_POSTGRES_PORT') | int }}"
+      dbname: "{{ env_var('DBT_POSTGRES_DBNAME', '') }}"
+      schema: "{{ env_var('DBT_POSTGRES_SCHEMA') }}"
+      threads: 6
+      keepalives_idle: 0 # default 0, indicating the system default
+      connect_timeout: 10 # default 10 seconds
+      search_path: "{{ env_var('DBT_POSTGRES_SEARCH_PATH', '') }}" # optional, override the default postgres search_path
+      role: "{{ env_var('DBT_POSTGRES_ROLE', '') }}" # optional, set the role dbt assumes when executing queries
+      # sslmode: "{{ env_var('DBT_POSTGRES_SSLMODE', '').split() }}" # optional, set the sslmode used to connect to the database

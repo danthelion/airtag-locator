@@ -1,0 +1,7 @@
+config-version: 2
+version: 2
+sources:
+  - name: tap_findmy
+    schema: tap_findmy
+    tables:
+      - name: item
