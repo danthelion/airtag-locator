@@ -1,0 +1,9 @@
+version: 2
+
+name: item_location_1d
+columns:
+  - name: label
+  - name: longitude
+  - name: latitude
+  - name: altitude
+  - name: timestamp

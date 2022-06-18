@@ -30,3 +30,4 @@ setup for post:
 5. superset to visualize
 6. meltano wrap tasks in job
 7. meltano orchestrate to run every day
+8. airflow validation

@@ -23,16 +23,24 @@ plugins:
     - name: user
     - name: password
     - name: dbname
+  orchestrators:
+  - name: airflow
+    variant: apache
+    pip_url: apache-airflow==2.1.2 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.1.2/constraints-${MELTANO__PYTHON_VERSION}.txt
   transformers:
   - name: dbt-postgres
     variant: dbt-labs
     pip_url: dbt-core~=1.0.0 dbt-postgres~=1.0.0
     commands:
-      item: run --select +stg_item
+      item: build
+  files:
+  - name: files-airflow
+    variant: meltano
+    pip_url: git+https://github.com/meltano/files-airflow.git
   utilities:
   - name: sqlfluff
     variant: sqlfluff
-    pip_url: sqlfluff[dbt]
+    pip_url: sqlfluff[dbt] sqlfluff-templater-dbt dbt-core~=1.0.0 dbt-postgres~=1.0.0
   - name: superset
     variant: apache
     pip_url: apache-superset==1.5.0 markupsafe==2.0.1 psycopg2==2.9.3
@@ -56,9 +64,18 @@ environments:
           schema: public
       extractors:
       - name: tap-findmy
+  env:
+    DBT_POSTGRES_HOST: localhost
+    DBT_POSTGRES_USER: meltano
+    DBT_POSTGRES_PASSWORD: meltano
+    DBT_POSTGRES_DBNAME: warehouse
+    DBT_POSTGRES_PORT: '5432'
 - name: staging
 - name: prod
 jobs:
 - name: load-item-location-from-cache
   tasks:
-  - tap-findmy target-postgres dbt-postgres:item
+  - tap-findmy
+  - target-postgres
+  - sqlfluff:lint
+  - dbt-postgres:item

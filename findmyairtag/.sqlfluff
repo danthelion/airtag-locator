@@ -1,0 +1,22 @@
+[sqlfluff]
+dialect = postgres
+templater = dbt
+output_line_length = 80
+ignore_templated_areas = True
+runaway_limit = 100
+exclude_rules = L029,L048
+
+[sqlfluff:templater:dbt]
+project_dir = transform
+profiles_dir = transform/profiles/postgres
+profile = meltano
+target = dev
+
+[sqlfluff:rules]
+tab_space_size = 2
+max_line_length = 120
+indent_unit = space
+comma_style = trailing
+
+[sqlfluff:rules:L014]
+extended_capitalisation_policy = lower

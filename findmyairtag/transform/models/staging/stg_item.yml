@@ -1,0 +1,10 @@
+version: 2
+
+name: stg_item
+columns:
+  - name: name
+  - name: emoji
+  - name: longitude
+  - name: latitude
+  - name: altitude
+  - name: timestamp
