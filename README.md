@@ -5,3 +5,6 @@ TARGET_POSTGRES_DBNAME=warehouse
 UTILITY_SUPERSET_MAPBOX_API_KEY=x
 
 meltano run load-item-location-from-cache
+
+
+![Mishas journey](cover.png "Mishas journey")
